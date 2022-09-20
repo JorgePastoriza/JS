@@ -43,7 +43,7 @@ function MostrarProductos(Genero){
                 column.id = `columna-venta-${dato.id}`;
                 column.innerHTML = `
                     <div class="card">
-                    <img class="card-img-top w-100" src="/img/${dato.imagen}" alt="Card image cap">
+                    <img class="card-img-top w-100" src="img/${dato.imagen}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                             <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
@@ -66,7 +66,7 @@ function MostrarProductos(Genero){
                     column.id = `columna-venta-${dato.id}`;
                     column.innerHTML = `
                         <div class="card">
-                        <img class="card-img-top w-100" src="/img/${dato.imagen}" alt="Card image cap">
+                        <img class="card-img-top w-100" src="img/${dato.imagen}" alt="Card image cap">
                             <div class="card-body">
                                 <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                                 <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
