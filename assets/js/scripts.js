@@ -23,6 +23,9 @@ const Generos = [
 
 const contenedorProductos = document.getElementById("contenedorProductos");
 const contenedorFiltros = document.getElementById("contenedorFiltros");
+const carritoVenta = document.getElementById("contenedorVenta");
+
+let carrito = [];
 
 function Filtros(){
     for (const dato of Generos) {
@@ -43,17 +46,16 @@ function MostrarProductos(Genero){
                 column.id = `columna-venta-${dato.id}`;
                 column.innerHTML = `
                     <div class="card">
-                    <img class="card-img-top w-100" src="../img/${dato.imagen}" alt="Card image cap">
+                    <img class="card-img-top w-100" src="img/${dato.imagen}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                             <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
                             <p class="card-text">Cantidad: <b>${dato.cantidad}</b></p>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-primary" id="botonAgregar-${dato.id}" >Agregar</button>
+                            <button class="btn btn-primary" id="${dato.id}" >Agregar</button>
                         </div>
                     </div>`;
-            
                     contenedorProductos.append(column);
         }
     }else{
@@ -66,17 +68,16 @@ function MostrarProductos(Genero){
                     column.id = `columna-venta-${dato.id}`;
                     column.innerHTML = `
                         <div class="card">
-                        <img class="card-img-top w-100" src="../img/${dato.imagen}" alt="Card image cap">
+                        <img class="card-img-top w-100" src="img/${dato.imagen}" alt="Card image cap">
                             <div class="card-body">
                                 <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                                 <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
                                 <p class="card-text">Cantidad: <b>${dato.cantidad}</b></p>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-primary" id="botonAgregar-${dato.id}" >Agregar</button>
+                                <button class="btn btn-primary" id="${dato.id}" >Agregar</button>
                             </div>
                         </div>`;
-                        console.log(column);
                         contenedorProductos.append(column);
                 }
             }   
@@ -84,8 +85,27 @@ function MostrarProductos(Genero){
     }
 }
 
+function eventoCarrito(seleccion){
+    //const resultado = inventario.find( fruta => fruta.nombre === 'cerezas' );
+    seleccion = parseInt(seleccion);
+    let producto = listaProductos.find(articulo => articulo.id == seleccion);
+    let column = document.createElement("div");
+    column.className = "col-md-4 mt-3 ";
+    column.id = `columna-venta1-${producto.id}`;
+    column.innerHTML = `
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">Nombre: <b>${producto.nombre}</b></p>
+                <p class="card-text">Precio venta: <b>${producto.precioVenta}</b></p>
+            </div>
+            
+        </div>`;
+    carritoVenta.append(column);
+}
+
 function inicializarEventos() {
     contenedorFiltros.onclick = (event) => MostrarProductos(event.target.id);
+    contenedorProductos.onclick = (event) => eventoCarrito(event.target.id);
   }
 
 //-------------------------Aca llamamos a cargar los productos, filtro y genero el event click-----------------
