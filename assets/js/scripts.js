@@ -2,7 +2,7 @@ const listaProductos = [
     {id: 1, nombre: "Captain Tsubasa", precioVenta: "500", cantidad: 5, Tipo: "Deportes", imagen: "CaptainTsubasa.webp",},
     {id: 2, nombre: "Demon Slayer", precioVenta: "600", cantidad: 5, Tipo: "Demonios", imagen: "DemonSlayer.webp",},
     {id: 3, nombre: "Dragon Ball", precioVenta: "600", cantidad: 3, Tipo: "Aventuras", imagen: "DragonBall.webp",},
-    {id: 4, nombre: "Neon Genesis Evangelion", precioVenta: "700", cantidad: 1, Tipo: "Mechas", imagen: "NeonGenesisEvangelion.webp",},
+    {id: 4, nombre: "Evangelion", precioVenta: "700", cantidad: 1, Tipo: "Mechas", imagen: "NeonGenesisEvangelion.webp",},
     {id: 5, nombre: "My Hero Academia", precioVenta: "600", cantidad: 2, Tipo: "Aventuras", imagen: "MyHeroAcademia.webp",},
     {id: 6, nombre: "One Piece", precioVenta: "600", cantidad: 4, Tipo: "Aventuras", imagen: "OnePiece.webp",},
     {id: 7, nombre: "One Punch Man", precioVenta: "600", cantidad: 4, Tipo: "Peleas", imagen: "OnePunchMan.webp",},
@@ -46,7 +46,7 @@ function MostrarProductos(Genero){
                 column.id = `columna-venta-${dato.id}`;
                 column.innerHTML = `
                     <div class="card">
-                    <img class="card-img-top w-100" src="img/${dato.imagen}" alt="Card image cap">
+                    <img class="card-img-top w-100 card-img-top" src="img/${dato.imagen}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                             <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
@@ -68,7 +68,7 @@ function MostrarProductos(Genero){
                     column.id = `columna-venta-${dato.id}`;
                     column.innerHTML = `
                         <div class="card">
-                        <img class="card-img-top w-100" src="img/${dato.imagen}" alt="Card image cap">
+                        <img class="card-img-top w-100 card-img-top" src="img/${dato.imagen}" alt="Card image cap">
                             <div class="card-body">
                                 <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                                 <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
