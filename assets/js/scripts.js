@@ -23,8 +23,7 @@ const Generos = [
 
 const contenedorProductos = document.getElementById("contenedorProductos");
 const contenedorFiltros = document.getElementById("contenedorFiltros");
-const carritoVenta = document.getElementById("contenedorVenta");
-
+let filtroActual;
 let carrito = [];
 
 function Filtros(){
@@ -38,6 +37,7 @@ function Filtros(){
 }
 
 function MostrarProductos(Genero){
+    filtroActual = Genero;
     if (Genero =="Todos"){
         contenedorProductos.innerHTML = "";
         for (const dato of listaProductos) {
@@ -50,7 +50,7 @@ function MostrarProductos(Genero){
                         <div class="card-body">
                             <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                             <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
-                            <p class="card-text">Cantidad: <b>${dato.cantidad}</b></p>
+                            <p class="card-text" id="cant-${dato.id}">Cantidad: <b>${dato.cantidad}</b></p>
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-primary" id="${dato.id}" >Agregar</button>
@@ -72,7 +72,7 @@ function MostrarProductos(Genero){
                             <div class="card-body">
                                 <p class="card-text">Nombre: <b>${dato.nombre}</b></p>
                                 <p class="card-text">Precio venta: <b>${dato.precioVenta}</b></p>
-                                <p class="card-text">Cantidad: <b>${dato.cantidad}</b></p>
+                                <p class="card-text" id="cant-${dato.id}">Cantidad: <b>${dato.cantidad}</b></p>
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-primary" id="${dato.id}" >Agregar</button>
@@ -86,22 +86,39 @@ function MostrarProductos(Genero){
 }
 
 function eventoCarrito(seleccion){
-    //const resultado = inventario.find( fruta => fruta.nombre === 'cerezas' );
     seleccion = parseInt(seleccion);
-    let producto = listaProductos.find(articulo => articulo.id == seleccion);
-    let column = document.createElement("div");
-    column.className = "col-md-4 mt-3 ";
-    column.id = `columna-venta1-${producto.id}`;
-    column.innerHTML = `
-        <div class="card">
-            <div class="card-body">
-                <p class="card-text">Nombre: <b>${producto.nombre}</b></p>
-                <p class="card-text">Precio venta: <b>${producto.precioVenta}</b></p>
-            </div>
-            
-        </div>`;
-    carritoVenta.append(column);
+    listaProductos.map(function(dato){
+        if(dato.id == seleccion){
+            if (dato.cantidad > 0){
+                let producto = listaProductos.find(articulo => articulo.id == seleccion);
+                let repetido = carrito.find((x)=> x.id === producto.id);
+                    if (repetido === undefined){
+                    carrito.push({  id: producto.id,
+                                    nombre: producto.nombre,
+                                    precio: producto.precioVenta,
+                                    cantidad: 1,});
+                    }else{
+                        repetido.cantidad += 1;
+                    }
+                dato.cantidad -= 1;
+            }else{
+                alert("No quedan mas articulos");
+            }
+        }
+    });
+    actualizaContador(carrito);
+    MostrarProductos(filtroActual);
 }
+
+function actualizaContador(datoCarrito){
+    let total = 0;
+    for (const dato of datoCarrito) {
+        total += dato.cantidad;
+    }
+    cantidadArticulos.innerHTML = total;
+    }
+    
+
 
 function inicializarEventos() {
     contenedorFiltros.onclick = (event) => MostrarProductos(event.target.id);
