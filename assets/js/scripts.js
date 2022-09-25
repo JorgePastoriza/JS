@@ -23,6 +23,7 @@ const Generos = [
 
 const contenedorProductos = document.getElementById("contenedorProductos");
 const contenedorFiltros = document.getElementById("contenedorFiltros");
+//const checkOutCarrito = document.getElementById("checkout");
 let filtroActual;
 let carrito = [];
 
@@ -122,6 +123,7 @@ function actualizaContador(datoCarrito){
 function inicializarEventos() {
     contenedorFiltros.onclick = (event) => MostrarProductos(event.target.id);
     contenedorProductos.onclick = (event) => eventoCarrito(event.target.id);
+    //checkOutCarrito.onclick = (event) => alert("hiciste click en el carrito");
   }
 
 //-------------------------Funcionadlidad LocalStorage-------------------
