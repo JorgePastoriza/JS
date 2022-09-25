@@ -101,6 +101,7 @@ function eventoCarrito(seleccion){
                         repetido.cantidad += 1;
                     }
                 dato.cantidad -= 1;
+                actualizarProductosStorage();
             }else{
                 alert("No quedan mas articulos");
             }
@@ -117,13 +118,26 @@ function actualizaContador(datoCarrito){
     }
     cantidadArticulos.innerHTML = total;
     }
-    
-
 
 function inicializarEventos() {
     contenedorFiltros.onclick = (event) => MostrarProductos(event.target.id);
     contenedorProductos.onclick = (event) => eventoCarrito(event.target.id);
   }
+
+//-------------------------Funcionadlidad LocalStorage-------------------
+
+function obtenerProductosStorage() {
+    let productosJSON = localStorage.getItem("carrito");
+    if (productosJSON) {
+        carrito = JSON.parse(productosJSON);
+        actualizaContador(carrito);
+    }
+}
+
+function actualizarProductosStorage() {
+    let productosJSON = JSON.stringify(carrito);
+    localStorage.setItem("carrito", productosJSON);
+}
 
 //-------------------------Aca llamamos a cargar los productos, filtro y genero el event click-----------------
 
@@ -131,6 +145,7 @@ function main() {
     Filtros();
     MostrarProductos("Todos");
     inicializarEventos();
+    obtenerProductosStorage();
   }
   
 main();
