@@ -102,6 +102,7 @@ function eventoCarrito(seleccion){
                         repetido.cantidad += 1;
                     }
                 dato.cantidad -= 1;
+                mostrarToast(producto.nombre);
                 actualizarProductosStorage();
             }else{
                 alert("No quedan mas articulos");
@@ -118,12 +119,19 @@ function actualizaContador(datoCarrito){
         total += dato.cantidad;
     }
     cantidadArticulos.innerHTML = total;
-    }
+}
+
+function mostrarToast(articulo) {
+    Toastify({
+        text: articulo + " agregado",
+        duration: 3000,
+        close: true,
+    }).showToast();
+}
 
 function inicializarEventos() {
     contenedorFiltros.onclick = (event) => MostrarProductos(event.target.id);
     contenedorProductos.onclick = (event) => eventoCarrito(event.target.id);
-    //checkOutCarrito.onclick = (event) => alert("hiciste click en el carrito");
   }
 
 //-------------------------Funcionadlidad LocalStorage-------------------
