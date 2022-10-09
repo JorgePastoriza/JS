@@ -1,16 +1,17 @@
-const listaProductos = [
-    {id: 1, nombre: "Captain Tsubasa", precioVenta: "500", cantidad: 5, Tipo: "Deportes", imagen: "CaptainTsubasa.webp",},
-    {id: 2, nombre: "Demon Slayer", precioVenta: "600", cantidad: 5, Tipo: "Demonios", imagen: "DemonSlayer.webp",},
-    {id: 3, nombre: "Dragon Ball", precioVenta: "600", cantidad: 3, Tipo: "Aventuras", imagen: "DragonBall.webp",},
-    {id: 4, nombre: "Evangelion", precioVenta: "700", cantidad: 1, Tipo: "Mechas", imagen: "NeonGenesisEvangelion.webp",},
-    {id: 5, nombre: "My Hero Academia", precioVenta: "600", cantidad: 2, Tipo: "Aventuras", imagen: "MyHeroAcademia.webp",},
-    {id: 6, nombre: "One Piece", precioVenta: "600", cantidad: 4, Tipo: "Aventuras", imagen: "OnePiece.webp",},
-    {id: 7, nombre: "One Punch Man", precioVenta: "600", cantidad: 4, Tipo: "Peleas", imagen: "OnePunchMan.webp",},
-    {id: 8, nombre: "Shin Mazinger Zero", precioVenta: "600", cantidad: 2, Tipo: "Mechas", imagen: "ShinMazingerZero.webp",},
-    {id: 9, nombre: "Slam Dunk", precioVenta: "500", cantidad: 2, Tipo: "Deportes", imagen: "SlamDunk.webp",},
-    {id: 10, nombre: "Spy Family", precioVenta: "600", cantidad: 3, Tipo: "Humor", imagen: "SpyFamily.webp",},
-  ];
+/* const listaProductos = [
+    {id: 1, nombre: "Captain Tsubasa", precioVenta: 500, cantidad: 5, Tipo: "Deportes", imagen: "CaptainTsubasa.webp",},
+    {id: 2, nombre: "Demon Slayer", precioVenta: 600, cantidad: 5, Tipo: "Demonios", imagen: "DemonSlayer.webp",},
+    {id: 3, nombre: "Dragon Ball", precioVenta: 600, cantidad: 3, Tipo: "Aventuras", imagen: "DragonBall.webp",},
+    {id: 4, nombre: "Evangelion", precioVenta: 700, cantidad: 1, Tipo: "Mechas", imagen: "NeonGenesisEvangelion.webp",},
+    {id: 5, nombre: "My Hero Academia", precioVenta: 600, cantidad: 2, Tipo: "Aventuras", imagen: "MyHeroAcademia.webp",},
+    {id: 6, nombre: "One Piece", precioVenta: 600, cantidad: 4, Tipo: "Aventuras", imagen: "OnePiece.webp",},
+    {id: 7, nombre: "One Punch Man", precioVenta: 600, cantidad: 4, Tipo: "Peleas", imagen: "OnePunchMan.webp",},
+    {id: 8, nombre: "Shin Mazinger Zero", precioVenta: 600, cantidad: 2, Tipo: "Mechas", imagen: "ShinMazingerZero.webp",},
+    {id: 9, nombre: "Slam Dunk", precioVenta: 500, cantidad: 2, Tipo: "Deportes", imagen: "SlamDunk.webp",},
+    {id: 10, nombre: "Spy Family", precioVenta: 600, cantidad: 3, Tipo: "Humor", imagen: "SpyFamily.webp",},
+  ]; */
 
+let listaProductos = [];  
 const Generos = [
     {tipo: 0, nombre: "Todos", },
     {tipo: 1, nombre: "Aventuras", },
@@ -149,11 +150,25 @@ function actualizarProductosStorage() {
     localStorage.setItem("carrito", productosJSON);
 }
 
+//-------------------------Funcionalidad AJAX-------------------
+async function consultarProductosServer() {
+    try {
+      const response = await fetch(
+        "output.json"
+      );
+      const data = await response.json();
+      listaProductos = [...data];
+      MostrarProductos("Todos");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 //-------------------------Aca llamamos a cargar los productos, filtro y genero el event click-----------------
 
 function main() {
     Filtros();
-    MostrarProductos("Todos");
+    consultarProductosServer();
     inicializarEventos();
     obtenerProductosStorage();
   }
