@@ -1,16 +1,3 @@
-/* const listaProductos = [
-    {id: 1, nombre: "Captain Tsubasa", precioVenta: 500, cantidad: 5, Tipo: "Deportes", imagen: "CaptainTsubasa.webp",},
-    {id: 2, nombre: "Demon Slayer", precioVenta: 600, cantidad: 5, Tipo: "Demonios", imagen: "DemonSlayer.webp",},
-    {id: 3, nombre: "Dragon Ball", precioVenta: 600, cantidad: 3, Tipo: "Aventuras", imagen: "DragonBall.webp",},
-    {id: 4, nombre: "Evangelion", precioVenta: 700, cantidad: 1, Tipo: "Mechas", imagen: "NeonGenesisEvangelion.webp",},
-    {id: 5, nombre: "My Hero Academia", precioVenta: 600, cantidad: 2, Tipo: "Aventuras", imagen: "MyHeroAcademia.webp",},
-    {id: 6, nombre: "One Piece", precioVenta: 600, cantidad: 4, Tipo: "Aventuras", imagen: "OnePiece.webp",},
-    {id: 7, nombre: "One Punch Man", precioVenta: 600, cantidad: 4, Tipo: "Peleas", imagen: "OnePunchMan.webp",},
-    {id: 8, nombre: "Shin Mazinger Zero", precioVenta: 600, cantidad: 2, Tipo: "Mechas", imagen: "ShinMazingerZero.webp",},
-    {id: 9, nombre: "Slam Dunk", precioVenta: 500, cantidad: 2, Tipo: "Deportes", imagen: "SlamDunk.webp",},
-    {id: 10, nombre: "Spy Family", precioVenta: 600, cantidad: 3, Tipo: "Humor", imagen: "SpyFamily.webp",},
-  ]; */
-
 let listaProductos = [];  
 const Generos = [
     {tipo: 0, nombre: "Todos", },
@@ -24,9 +11,18 @@ const Generos = [
 
 const contenedorProductos = document.getElementById("contenedorProductos");
 const contenedorFiltros = document.getElementById("contenedorFiltros");
-//const checkOutCarrito = document.getElementById("checkout");
+const contadorCarrito = document.getElementById("cantidadArticulos");
+
 let filtroActual;
 let carrito = [];
+
+function mostrarSweetAlert(mensaje){
+    swal({
+        text: mensaje,
+        icon: "error",
+        button: "Aceptar",
+      })
+}
 
 function Filtros(){
     for (const dato of Generos) {
@@ -37,6 +33,7 @@ function Filtros(){
         contenedorFiltros.append(column);
     }
 }
+
 
 function MostrarProductos(Genero){
     filtroActual = Genero;
@@ -87,6 +84,7 @@ function MostrarProductos(Genero){
     }
 }
 
+
 function eventoCarrito(seleccion){
     seleccion = parseInt(seleccion);
     listaProductos.map(function(dato){
@@ -106,13 +104,15 @@ function eventoCarrito(seleccion){
                 mostrarToast(producto.nombre);
                 actualizarProductosStorage();
             }else{
-                alert("No quedan mas articulos");
+                mostrarSweetAlert("No quedan mas articulos");
             }
         }
     });
+
     actualizaContador(carrito);
     MostrarProductos(filtroActual);
 }
+
 
 function actualizaContador(datoCarrito){
     let total = 0;
@@ -122,6 +122,7 @@ function actualizaContador(datoCarrito){
     cantidadArticulos.innerHTML = total;
 }
 
+
 function mostrarToast(articulo) {
     Toastify({
         text: articulo + " agregado",
@@ -130,12 +131,16 @@ function mostrarToast(articulo) {
     }).showToast();
 }
 
+
 function inicializarEventos() {
+
     contenedorFiltros.onclick = (event) => MostrarProductos(event.target.id);
     contenedorProductos.onclick = (event) => eventoCarrito(event.target.id);
-  }
+}
+
 
 //-------------------------Funcionadlidad LocalStorage-------------------
+
 
 function obtenerProductosStorage() {
     let productosJSON = localStorage.getItem("carrito");
@@ -145,12 +150,15 @@ function obtenerProductosStorage() {
     }
 }
 
+
 function actualizarProductosStorage() {
     let productosJSON = JSON.stringify(carrito);
     localStorage.setItem("carrito", productosJSON);
 }
 
+
 //-------------------------Funcionalidad AJAX-------------------
+
 async function consultarProductosServer() {
     try {
       const response = await fetch(
@@ -164,13 +172,15 @@ async function consultarProductosServer() {
     }
   }
 
+
 //-------------------------Aca llamamos a cargar los productos, filtro y genero el event click-----------------
+
 
 function main() {
     Filtros();
     consultarProductosServer();
     inicializarEventos();
     obtenerProductosStorage();
-  }
-  
+}
+
 main();

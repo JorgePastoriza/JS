@@ -1,8 +1,19 @@
 const contenedorProductos = document.getElementById("contenedorProductos");
+const contadorCarrito = document.getElementById("cantidadArticulos");
+const botonEnviar = document.getElementById("btnEnviar");
+const TotalVenta = document.getElementById("TotalVenta");
 let carrito = [];
+let montoVenta = 0;
+
+function mostrarSweetAlert(mensaje){
+    swal({
+        text: mensaje,
+        icon: "error",
+        button: "Aceptar",
+      });
+}
 
 function MostrarProductos(carrito){
-
     contenedorProductos.innerHTML = "";
     for (const dato of carrito) {
         let column = document.createElement("div");
@@ -23,7 +34,6 @@ function MostrarProductos(carrito){
 
 function eventoCarrito(seleccion){
     let index = carrito.findIndex(prod => prod.id == seleccion);  
-    console.log(index);
     carrito.splice(index, 1);
     actualizarProductosStorage();
     actualizaContador(carrito);
@@ -32,17 +42,34 @@ function eventoCarrito(seleccion){
 
 function actualizaContador(datoCarrito){
     let total = 0;
-    for (const dato of datoCarrito) {
-        total += dato.cantidad;
+    montoVenta = 0;
+        for (const dato of datoCarrito) {
+            total += dato.cantidad;
+            montoVenta += dato.precio * dato.cantidad;
+        }
+    contadorCarrito.innerHTML = total;
+    TotalVenta.innerHTML = `<label class="form-label">Total compra: ${montoVenta}</label>`;
+}
+
+function cierreCarrito(){
+    if (montoVenta === 0) {
+        mostrarSweetAlert("Tenes el carrito vacio!");
+    }else{
+        localStorage.clear();
+        carrito.splice(0, carrito.length);
+        actualizaContador(carrito);
+        MostrarProductos(carrito);
+        montoVenta = 0;
     }
-    cantidadArticulos.innerHTML = total;
-    }
+}
+
 
 function inicializarEventos() {
-
     contenedorProductos.onclick = (event) => eventoCarrito(event.target.id);
+    botonEnviar.onclick = (event) => cierreCarrito(event.target.id);
 
-  }
+}
+
 
 //-------------------------Funcionadlidad LocalStorage-------------------
 
@@ -59,13 +86,14 @@ function actualizarProductosStorage() {
     localStorage.setItem("carrito", productosJSON);
 }
 
+
 //-------------------------Aca llamamos a cargar los productos, filtro y genero el event click-----------------
+
 
 function main() {
     inicializarEventos();
     obtenerProductosStorage();
     MostrarProductos(carrito);
-    console.log(carrito);
-  }
-  
+}
+
 main();
